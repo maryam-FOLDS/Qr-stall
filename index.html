@@ -1,37 +1,154 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Special Memory</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just for you</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            text-align: center;
-            font-family: Arial;
-            background: #fff5f8;
-            padding: 20px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #FFF8F6;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(246, 215, 221, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212, 175, 127, 0.08) 0%, transparent 50%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></defs><rect width="100" height="100" filter="url(%23noise)" opacity="0.03"/></svg>');
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-x: hidden;
+            position: relative;
         }
-        img {
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(255, 248, 246, 0.4) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .headline {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            font-weight: 400;
+            color: #3D2F2F;
+            text-align: center;
+            letter-spacing: 0.08em;
+            line-height: 1.3;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeSlideUp 700ms ease-out forwards;
             max-width: 90%;
-            border-radius: 15px;
-            margin-top: 20px;
+        }
+
+        @keyframes fadeSlideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .headline::after {
+            content: '✨';
+            position: absolute;
+            top: -1.2rem;
+            right: -1.5rem;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            opacity: 0;
+            animation: sparkle 2s ease-in-out 1s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0.8) rotate(0deg); }
+            50% { opacity: 0.6; transform: scale(1.1) rotate(20deg); }
+        }
+
+        .photo-container {
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 800ms ease-out 250ms forwards;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .photo-frame {
+            position: relative;
+            width: 100%;
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 3px solid #D4AF7F;
+            box-shadow: 
+                0 10px 40px rgba(212, 175, 127, 0.15),
+                0 4px 12px rgba(61, 47, 47, 0.08);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .photo-frame:hover {
+            transform: translateY(-4px) scale(1.01);
+        }
+
+        .photo-frame img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            filter: brightness(1.02) contrast(0.98);
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1 class="headline">Just for you</h1>
+        
+        <div class="photo-container">
+            <div class="photo-frame">
+                <img 
+                    id="dynamicPhoto"
+                    src=""
+                    alt="special memory"
+                    loading="lazy"
+                >
+            </div>
+        </div>
+    </div>
 
-<h1>Your Special Memory ❤️</h1>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
 
-<img id="photo" src="" alt="Loading...">
-
-<script>
-const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get('id');
-
-if(id){
-    document.getElementById("photo").src = "images/" + id + ".jpg";
-}else{
-    document.body.innerHTML = "<h2>Invalid QR Code</h2>";
-}
-</script>
-
+        if (id) {
+            document.getElementById("dynamicPhoto").src = "images/" + id + ".jpg";
+        } else {
+            document.querySelector(".photo-frame").innerHTML =
+                "<div style='padding:4rem;text-align:center;color:#3D2F2F;font-family:Inter,sans-serif;'>Invalid QR Code</div>";
+        }
+    </script>
 </body>
 </html>
