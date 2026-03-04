@@ -285,10 +285,12 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-if (id) {
-  document.getElementById("dynamicImage").src = "images/" + id + ".jpg";
-} else {
-  document.getElementById("dynamicImage").style.display = "none";
+const img = document.getElementById("dynamicImage");
+
+if(id){
+    img.src = "images/" + id + ".jpg";
+}else{
+    img.style.display = "none";
 }
   </script>
 </body>
