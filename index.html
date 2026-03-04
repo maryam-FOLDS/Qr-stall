@@ -271,27 +271,60 @@
     <div class="sparkle"></div>
     
     <div class="container">
-        <h1 class="greeting">Hey beautiful,</h1>
+        <h1 class="greeting" id="greetingText">Hey beautiful,</h1>
         
         <div class="image-container">
             <img id="dynamicImage" src="" alt="Special moment" loading="lazy">
         </div>
         
         <div class="message">
-            I love you<span class="flower">🌸</span>
+            <div class="message" id="messageText">
+    I love you<span class="flower">🌸</span>
+            </div>
         </div>
     </div>
   <script>
+
 const params = new URLSearchParams(window.location.search);
+
 const id = params.get("id");
+const type = params.get("type");
 
 const img = document.getElementById("dynamicImage");
+const greeting = document.getElementById("greetingText");
+const message = document.getElementById("messageText");
 
 if(id){
     img.src = "images/" + id + ".jpg";
-}else{
-    img.style.display = "none";
 }
+
+/* Change message depending on type */
+
+if(type === "gf"){
+    greeting.innerText = "Hey beautiful,";
+    message.innerHTML = "I love you <span class='flower'>🌸</span>";
+}
+
+else if(type === "mom"){
+    greeting.innerText = "Dear Mom,";
+    message.innerHTML = "Thank you for everything <span class='flower'>🌸</span>";
+}
+
+else if(type === "sister"){
+    greeting.innerText = "My dear sister,";
+    message.innerHTML = "You mean the world to me <span class='flower'>🌸</span>";
+}
+
+else if(type === "friend"){
+    greeting.innerText = "Hey bestie,";
+    message.innerHTML = "Life is better with you <span class='flower'>🌸</span>";
+}
+
+else if(type === "general"){
+    greeting.innerText = "Just for you,";
+    message.innerHTML = "Someone cares about you <span class='flower'>🌸</span>";
+}
+
   </script>
 </body>
 </html>
